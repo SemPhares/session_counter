@@ -1,3 +1,6 @@
+import sys, os
+sys.path.insert(0,os.getcwd())    
+
 import streamlit as st
 
 st.set_page_config(

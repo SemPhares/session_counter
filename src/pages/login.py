@@ -1,9 +1,16 @@
+import sys , os   
+# sys.path.insert(0,os.getcwd()) 
+print(f"In module products sys.path[0], __package__ ==", sys.path[0], __package__)
+
 import streamlit as st
-from src.database import get_db, settings
+from src.database import get_db
+from src.config import Settings
+
 from src.services import person_service
 from src.schemas import person_schema
 
 db = get_db()
+settings = Settings()
 
 
 def login():
@@ -61,78 +68,3 @@ with col2:
     
      if st.button("Cliquez ici pour vous créer un compte"):
         create_account()
-
-
-# Fonction de connexion à la base de données PostgreSQL
-# def connect_to_db():
-#     import psycopg2
-#     conn = psycopg2.connect(
-#         dbname='counter_db',
-#         user='counter_user',
-#         password='counter_password',
-#         host='postgres',  # Nom du service dans le conteneur Docker
-#         port='5432'
-#     )
-#     return conn
-
-# # Fonction de validation de l'existence d'un utilisateur
-# def user_exists(username):
-#     conn = connect_to_db()
-#     cursor = conn.cursor()
-#     cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-#     user = cursor.fetchone()
-#     cursor.close()
-#     conn.close()
-#     return user is not None
-
-# # Fonction de validation de l'existence d'un utilisateur
-# def valide_user_exists(username):
-#     conn = connect_to_db()
-#     cursor = conn.cursor()
-#     cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-#     user = cursor.fetchone()
-#     cursor.close()
-#     conn.close()
-#     return user is not None
-
-# # Fonction de création de compte
-# def create_account(username, password):
-#     conn = connect_to_db()
-#     cursor = conn.cursor()
-#     cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
-#     conn.commit()
-#     cursor.close()
-#     conn.close()
-
-
-# Lancer l'application
-# if __name__ == "__main__":
-#     login
-
-
-# import streamlit as st
-# from streamlit_authenticator import Auth
-
-# # Création d'une instance d'Authenticator
-# authenticator = Auth(
-#     authentication_methods=["password"],
-#     db_connection=f"postgresql://{settings.DATABASE_USER}:{settings.DATABASE_PASSWORD}@{settings.DATABASE_HOST}/{settings.DATABASE_NAME}")
-
-# # Page de connexion et de création de compte
-# def login_or_create_account_page():
-#     st.title("Connexion")
-
-#     # Vérifie si l'utilisateur est connecté
-#     if authenticator.user is None:
-#         # Affiche le formulaire de connexion
-#         login_result = authenticator.login_form()
-#         if login_result is not None:
-#             st.success("Connexion réussie!")
-#             # Redirection vers une autre page après la connexion réussie
-#     else:
-#         st.success("Vous êtes déjà connecté en tant que " + authenticator.user)
-#         st.button("Se déconnecter", on_click=authenticator.logout)
-
-# # Lancer l'application
-# if __name__ == "__main__":
-#     login_or_create_account_page()
