@@ -1,0 +1,29 @@
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: postgresdb
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/data:/var/lib/postgresql/data
+
+  streamlit_app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+    environment:
+      database_host: postgresdb
+
+
+volumes:
+  db:
