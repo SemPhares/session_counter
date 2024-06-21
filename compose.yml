@@ -13,7 +13,8 @@ services:
     volumes:
       - db:/data:/var/lib/postgresql/data
 
-  streamlit_app:
+  counter_app:
+    container_name: counter_app
     build: 
       context: .
       dockerfile: Dockerfile

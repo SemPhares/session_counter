@@ -8,6 +8,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN cd src 
+# RUN cd src 
 
-CMD ["streamlit", "run", "home.py"]
+CMD ["streamlit", "run", "src/home.py"]

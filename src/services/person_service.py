@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 import uuid
 from fastapi import HTTPException
 
-import security_service as security
-from src.services import mail_service
+from  . import security_service as security
+# from src.services import mail_service
 from src.models.person_model import Person_model
 from src.schemas.person_schema import Person_create
 
@@ -14,7 +14,7 @@ from src.schemas.person_schema import Person_create
 def get_person_by_email(db: Session, email: str):
     return db.query(Person_model).filter(Person_model.email == email).first()
 
-def check_existing_person(db: Session, email: str):
+def check_existing_person(db: Session, email: str) -> bool:
     user = get_person_by_email(db, email)
     return user is not None
 
@@ -44,7 +44,7 @@ def authenticate_user(db: Session, email: str, password: str):
     
     """
     user = get_person_by_email(db=db,email=email)
-    if user is not None and security.compareHashedText(password,user.password):
+    if user is not None and security.compareHashedText(password,str(user.password)):
         return user
     else:
         return None
