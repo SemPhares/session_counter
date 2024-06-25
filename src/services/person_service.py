@@ -1,14 +1,14 @@
-
-from sqlalchemy import or_
 from sqlalchemy.orm import Session
+
+from typing import Union
 
 import uuid
 from fastapi import HTTPException
 
 from  . import security_service as security
-# from src.services import mail_service
-from src.models.person_model import Person_model
-from src.schemas.person_schema import Person_create
+# from services import mail_service
+from models.person_model import Person_model
+from schemas.person_schema import Person_create, Person
 
 
 def get_person_by_email(db: Session, email: str):
@@ -36,16 +36,27 @@ async def create_person(db: Session, person_create: Person_create):
     
     db.commit()
 
-    return db_user
+    created_person = Person(
+        last_name =person_create.last_name,
+        first_name =person_create.first_name,
+        email = person_create.email)
+
+    return created_person
+
 
 # Créer une fonction pour vérifier les informations de connexion
-def authenticate_user(db: Session, email: str, password: str):
+def authenticate_user(db: Session, email: str, password: str) -> Union[Person, None]:
     """
     
     """
     user = get_person_by_email(db=db,email=email)
     if user is not None and security.compareHashedText(password,str(user.password)):
-        return user
+        connected_person = Person(
+        last_name = str(user.last_name),
+        first_name = str(user.first_name),
+        email = str(user.email))
+
+        return connected_person
     else:
         return None
 

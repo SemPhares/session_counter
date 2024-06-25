@@ -8,6 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-# RUN cd src 
-
 CMD ["streamlit", "run", "src/home.py"]
